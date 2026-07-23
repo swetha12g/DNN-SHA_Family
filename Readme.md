@@ -2,8 +2,6 @@
 
 <img width="1536" height="1024" alt="ChatGPT Image Jul 24, 2026, 12_54_16 AM" src="https://github.com/user-attachments/assets/d437b70a-d863-4220-9654-b61060f22138" />
 
-
-
 ## Overview
 This project (https://colab.research.google.com/drive/15EwJ9I518CMAhpUe0irbqAFcPa8FLJK4?usp=drive_link) investigates the capability of **Deep Neural Networks (DNNs)** to learn the deterministic, non-linear mappings of cryptographic hash functions. It focuses on the emulation of three major families: **SHA-1**, **SHA-2 (SHA-256)**, and **SHA-3 (SHA-3-256)**.
 
