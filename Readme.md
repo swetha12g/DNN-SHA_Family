@@ -1,7 +1,7 @@
 # Deep Neural Cryptography: Implementation of SHA-1, SHA-2, and SHA-3 Family Hash Functions Using Deep Neural Networks
 
 ## Overview
-This project investigates the capability of **Deep Neural Networks (DNNs)** to learn the deterministic, non-linear mappings of cryptographic hash functions. It focuses on the emulation of three major families: **SHA-1**, **SHA-2 (SHA-256)**, and **SHA-3 (SHA-3-256)**.
+This project https://colab.research.google.com/drive/15EwJ9I518CMAhpUe0irbqAFcPa8FLJK4#scrollTo=bad3da5e investigates the capability of **Deep Neural Networks (DNNs)** to learn the deterministic, non-linear mappings of cryptographic hash functions. It focuses on the emulation of three major families: **SHA-1**, **SHA-2 (SHA-256)**, and **SHA-3 (SHA-3-256)**.
 
 ## Research Objective
 The primary goal is to evaluate if a deep learning architecture can successfully learn to reproduce the bit-wise output of standard hash algorithms based on random string inputs. This study explores the boundary between statistical learning and cryptographic determinism.
