@@ -106,5 +106,21 @@ plt.figure(figsize=(10, 6))
 
 <img width="855" height="547" alt="image" src="https://github.com/user-attachments/assets/972d95a7-b1c6-45c9-9b88-fa4c624f2324" />
 
+### What is Collision Resistance?
 
+**Collision resistance** is a fundamental property of cryptographic hash functions. A hash function `H` is considered collision-resistant if it is computationally infeasible to find two distinct inputs, `x` and `y`, such that `H(x) = H(y)`.
+
+In simpler terms:
+- A **collision** occurs when two different inputs produce the exact same hash output.
+- **Collision resistance** means it should be practically impossible for an attacker to intentionally find such a pair of inputs.
+
+#### Why is it important?
+1.  **Data Integrity**: If an attacker could find collisions, they could replace a legitimate message `x` with a malicious message `y` that has the same hash. If the recipient only verifies the hash, they would unknowingly accept the altered message as authentic.
+2.  **Digital Signatures**: Digital signatures often involve hashing a document and then encrypting the hash. If an attacker can find a collision, they can forge a signature for a different document.
+3.  **Password Storage**: While not directly related to finding *collisions* in the sense of two different inputs, strong hash functions prevent attackers from pre-computing common password hashes (rainbow tables) and make brute-force attacks much harder due to the 'avalanche effect' (even a one-bit change in input drastically changes the output).
+
+#### Practical Implications
+For cryptographically secure hash functions like SHA-256 or SHA-3, the number of possible hash outputs is astronomically large (e.g., $2^{256}$ for SHA-256). Even with immense computing power, the probability of randomly stumbling upon a collision is negligible. Finding a collision by design (i.e., by an attacker trying to create one) is considered beyond the capabilities of current and foreseeable technology.
+
+The demonstration in the following code block, although using a small number of samples, aims to illustrate this by showing how unlikely it is to find a collision even in a limited test, underscoring the strength of these algorithms.
 
