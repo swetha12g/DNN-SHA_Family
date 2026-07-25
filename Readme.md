@@ -25,7 +25,7 @@ The implementation follows a rigorous data-science pipeline:
 ## Implementation & Results
 
 ### SHA-256 Emulation
-* **Status**: Successfully Trained.
+* **Status** : Successfully Trained.
 * **Observation**: Although the model completed training successfully, the bit-wise prediction accuracy remained close to random guessing (~50%), with only marginal reduction in Binary Cross-Entropy loss. This demonstrates that the avalanche property of SHA-256 prevents a standard DNN from learning meaningful statistical relationships. This demonstrates the high complexity of the SHA-2 family's avalanche effect, making it resistant to simple neural emulation.
 
 ### SHA-1 Emulation
