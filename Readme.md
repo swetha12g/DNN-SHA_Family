@@ -3,10 +3,10 @@
 <img width="1536" height="1024" alt="ChatGPT Image Jul 24, 2026, 12_54_16 AM" src="https://github.com/user-attachments/assets/d437b70a-d863-4220-9654-b61060f22138" />
 
 ## Overview
-This project (https://colab.research.google.com/drive/15EwJ9I518CMAhpUe0irbqAFcPa8FLJK4?usp=drive_link) investigates the capability of **Deep Neural Networks (DNNs)** to learn the deterministic, non-linear mappings of cryptographic hash functions. It focuses on the emulation of three major families: **SHA-1**, **SHA-2 (SHA-256)**, and **SHA-3 (SHA-3-256)**.
+This project (https://colab.research.google.com/drive/15EwJ9I518CMAhpUe0irbqAFcPa8FLJK4?usp=drive_link) investigates the capability of Deep Neural Networks (DNNs) to approximate the deterministic, highly non-linear mappings of cryptographic hash functions. It focuses on three major hash families: SHA-1, SHA-2 (SHA-256), and SHA-3 (SHA-3-256). Rather than replacing these algorithms, the objective is to experimentally evaluate whether a feed-forward DNN can learn their complex input-output relationships.
 
 ## Research Objective
-The primary goal is to evaluate if a deep learning architecture can successfully learn to reproduce the bit-wise output of standard hash algorithms based on random string inputs. This study explores the boundary between statistical learning and cryptographic determinism.
+The primary goal is to evaluate whether a deep learning architecture can learn the bit-wise output mapping of standard cryptographic hash algorithms from randomly generated input strings. This study explores the limitations of statistical learning when applied to deterministic cryptographic functions characterized by strong diffusion and avalanche properties.
 
 ## Methodology
 The implementation follows a rigorous data-science pipeline:
@@ -26,18 +26,18 @@ The implementation follows a rigorous data-science pipeline:
 
 ### SHA-256 Emulation
 * **Status**: Successfully Trained.
-* **Observation**: The model achieved a bit-wise accuracy of ~0.5%. This demonstrates the high complexity of the SHA-2 family's avalanche effect, making it resistant to simple neural emulation.
+* **Observation**: Although the model completed training successfully, the bit-wise prediction accuracy remained close to random guessing (~50%), with only marginal reduction in Binary Cross-Entropy loss. This demonstrates that the avalanche property of SHA-256 prevents a standard DNN from learning meaningful statistical relationships. This demonstrates the high complexity of the SHA-2 family's avalanche effect, making it resistant to simple neural emulation.
 
 ### SHA-1 Emulation
 * **Status**: Successfully Trained.
-* **Observation**: Bit-wise accuracy reached ~1%. While higher than SHA-256, it still highlights that the mapping is highly non-linear and difficult for a DNN to memorize with small datasets.
+* **Observation**: The model successfully completed training; however, the bit-wise prediction accuracy remained approximately at the random baseline (~50%). Despite the smaller 160-bit output space, the DNN was unable to learn meaningful input-output mappings. While higher than SHA-256, it still highlights that the mapping is highly non-linear and difficult for a DNN to memorize with small datasets.
 
 ### SHA-3 (SHA-3-256) Emulation
 * **Status**: Successfully Trained.
-* **Observation**: This family uses the Keccak sponge construction. The accuracy was near 0%, confirming that SHA-3 is even more robust against linear/statistical approximation by standard DNN architectures.
+* **Observation**: This family uses the Keccak sponge construction. Similar to SHA-256, the bit-wise prediction accuracy remained near the random baseline (~50%). The Keccak sponge construction effectively eliminates exploitable statistical patterns, making approximation by a conventional feed-forward DNN extremely difficult. 
 
 ## Conclusion
-While the DNNs were successfully implemented and 'deep' in structure (utilizing 512-256 hidden layer configurations), the results prove that cryptographic hash functions are robust against simple machine learning emulation. This project serves as a foundational step for advanced **Deep Neural Cryptanalysis**, investigating how AI models interact with secure cryptographic primitives.
+While the Deep Neural Networks were successfully implemented and trained using a 512–256 hidden-layer architecture, the experimental results demonstrate that they were unable to learn meaningful approximations of SHA-1, SHA-256, or SHA-3-256 beyond random bit-wise prediction. These findings reinforce the robustness of modern cryptographic hash functions and highlight the limitations of conventional deep learning models when applied to deterministic cryptographic primitives.
 
 ## Requirements
 - TensorFlow / Keras
@@ -79,28 +79,28 @@ The model was optimized using the **Adam** optimizer, chosen for its adaptive le
 
 $$L(y, \hat{y}) = -\frac{1}{B} \sum_{i=1}^{B} [y_i \log(\hat{y}_i) + (1-y_i) \log(1-\hat{y}_i)]$$
 
-where $B$ represents the number of bits in the hash. This approach allows the network to penalize deviations on a per-bit basis, facilitating the study of the 'Avalanche Effect' within the neural weights.
+where $B$ represents the number of bits in the hash.This approach penalizes prediction errors independently for each output bit. Due to the avalanche effect exhibited by cryptographic hash functions, even a one-bit change in the input produces widespread and unpredictable changes in the output, making the mapping extremely difficult for a conventional DNN to learn.
 
 #### 4. Empirical Performance Visualizations
 
 **A. SHA-1 Training Performance**
 <img width="1010" height="470" alt="image" src="https://github.com/user-attachments/assets/9e49ec3a-f7a8-4b09-a4d6-7d00b26442ce" />
 
-*The SHA-1 plots indicate a stochastic movement in loss with negligible accuracy gains. Given the 160-bit output space, the DMLP fails to converge, highlighting the non-linear diffusion property of the SHA-1 algorithm.*
+*The SHA-1 training curves exhibit only marginal reductions in loss, while the bit-wise prediction accuracy remains close to the random baseline (~50%). These observations indicate that the DMLP fails to learn meaningful representations of the highly non-linear mapping implemented by SHA-1.
 
 **B. SHA-2 (SHA-256) Training Performance**
 <img width="1189" height="490" alt="image" src="https://github.com/user-attachments/assets/ca6f8755-e02c-4799-aab6-be975853e642" />
 
-*Observations: Consistent high loss and near-baseline accuracy, confirming the effectiveness of the SHA-256 compression function against linear DMLP mapping.*
+*Observations: The SHA-256 model demonstrates consistently high Binary Cross-Entropy loss and bit-wise prediction accuracy close to random guessing (~50%). This behavior reflects the effectiveness of SHA-256's compression function and avalanche property in preventing statistical approximation by conventional feed-forward neural networks.
 
 **C. SHA-3 (SHA-3-256) Training Performance**
 <img width="1010" height="470" alt="image" src="https://github.com/user-attachments/assets/6f5147fc-13dc-4c49-93a7-12fb8adb970c" />
 
-*The SHA-3 metrics exhibit absolute zero-gradient progress in accuracy. This visually confirms that the Keccak sponge construction effectively masks any statistical patterns that a standard feed-forward neural network might exploit.*
+*The SHA-3 training metrics similarly show minimal improvement throughout training, with prediction accuracy remaining near the random baseline (~50%). These results illustrate the robustness of the Keccak sponge construction against approximation using standard DNN architectures. This visually confirms that the Keccak sponge construction effectively masks any statistical patterns that a standard feed-forward neural network might exploit.*
 
 ### Comparative Analysis of Training Convergence
 
-The following plot compares the Binary Cross-Entropy loss across SHA-1, SHA-256, and SHA-3 models. A lack of significant loss reduction typically indicates the cryptographic robustness of the target functions.
+The following plot compares the Binary Cross-Entropy loss across SHA-1, SHA-256, and SHA-3 models.The absence of significant loss reduction across all three experiments demonstrates that the proposed Deep Multi-Layer Perceptron is unable to learn meaningful approximations of these cryptographic hash functions. This experimentally reinforces the strong diffusion, non-linearity, and avalanche characteristics that underpin the security of modern hash algorithms.
 
 plt.figure(figsize=(10, 6))
 
